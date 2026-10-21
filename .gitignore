@@ -1,0 +1,25 @@
+node_modules
+dist
+*.local
+
+# env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+
+# deps / build
+build/
+target/
+*.tsbuildinfo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude local settings
+.claude/settings.local.json
