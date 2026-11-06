@@ -224,7 +224,7 @@ function UnitForm({ connection, initial, onSaved, onDelete, onCancel }: FormProp
         <input value={aliases} onChange={(e) => setAliases(e.target.value)} placeholder="예: 병, bottle" />
         {fieldError("aliases")}
       </label>
-      {error && <p className="error">{error}</p>}
+      {error && !Object.values(fieldErrors).includes(error) && <p className="error">{error}</p>}
       <div className="actions">
         {onDelete && (
           <button type="button" className="danger" onClick={onDelete} disabled={saving}>
