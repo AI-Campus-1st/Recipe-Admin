@@ -7,6 +7,8 @@ import type {
   RecipeInput,
   SubstituteInput,
   Unit,
+  UnitCreateInput,
+  UnitUpdateInput,
 } from "./types";
 
 export interface Connection {
@@ -73,6 +75,12 @@ const json = (value: unknown) => JSON.stringify(value);
 
 export const adminApi = {
   units: (c: Connection) => request<Unit[]>(c, "/admin/units", { admin: true }),
+  createUnit: (c: Connection, input: UnitCreateInput) =>
+    request<Unit>(c, "/admin/units", { admin: true, method: "POST", body: json(input) }),
+  updateUnit: (c: Connection, code: string, input: UnitUpdateInput) =>
+    request<Unit>(c, `/admin/units/${encodeURIComponent(code)}`, { admin: true, method: "PUT", body: json(input) }),
+  deleteUnit: (c: Connection, code: string) =>
+    request<void>(c, `/admin/units/${encodeURIComponent(code)}`, { admin: true, method: "DELETE" }),
   ingredients: (c: Connection, params: { query: string; offset: number; limit: number; withSubstitutes: boolean }) => {
     const qs = new URLSearchParams({
       limit: String(params.limit),

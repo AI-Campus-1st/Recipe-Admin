@@ -19,10 +19,37 @@ export const STATUS_LABELS: Record<RecipeStatus, string> = {
   failed: "수집 실패",
 };
 
+export const UNIT_DIMENSIONS = ["mass", "volume", "count", "unmeasured"] as const;
+export type UnitDimension = (typeof UNIT_DIMENSIONS)[number];
+
+export const DIMENSION_LABELS: Record<UnitDimension, string> = {
+  mass: "질량 (g)",
+  volume: "부피 (ml)",
+  count: "개수",
+  unmeasured: "계량 없음",
+};
+
+/** Dimensions whose `toBaseFactor` must be null (DB `units_to_base_factor_check`). */
+export const FACTORLESS_DIMENSIONS: readonly UnitDimension[] = ["count", "unmeasured"];
+
+/** `AdminUnit` from `GET /admin/units` (API_SPEC §10.1). */
 export interface Unit {
   code: string;
   label: string;
-  dimension: string;
+  dimension: UnitDimension;
+  toBaseFactor: number | null;
+  aliases: string[];
+}
+
+export interface UnitUpdateInput {
+  label: string;
+  dimension: UnitDimension;
+  toBaseFactor: number | null;
+  aliases: string[];
+}
+
+export interface UnitCreateInput extends UnitUpdateInput {
+  code: string;
 }
 
 export interface AdminSubstitute {
