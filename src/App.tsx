@@ -2,8 +2,9 @@ import { useState } from "react";
 import { adminApi, ApiError, loadConnection, saveConnection, type Connection } from "./api";
 import { IngredientsPage } from "./pages/IngredientsPage";
 import { RecipesPage } from "./pages/RecipesPage";
+import { UnitsPage } from "./pages/UnitsPage";
 
-type Tab = "ingredients" | "recipes";
+type Tab = "ingredients" | "recipes" | "units";
 
 export function App() {
   const [connection, setConnection] = useState<Connection>(loadConnection);
@@ -36,6 +37,9 @@ export function App() {
           </button>
           <button className={tab === "recipes" ? "active" : ""} onClick={() => setTab("recipes")}>
             레시피
+          </button>
+          <button className={tab === "units" ? "active" : ""} onClick={() => setTab("units")}>
+            단위
           </button>
         </nav>
         <button className="secondary" onClick={() => setShowSettings((v) => !v)}>
@@ -76,7 +80,9 @@ export function App() {
       )}
 
       <main>
-        {tab === "ingredients" ? <IngredientsPage connection={connection} /> : <RecipesPage connection={connection} />}
+        {tab === "ingredients" && <IngredientsPage connection={connection} />}
+        {tab === "recipes" && <RecipesPage connection={connection} />}
+        {tab === "units" && <UnitsPage connection={connection} />}
       </main>
     </div>
   );
